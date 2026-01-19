@@ -6,6 +6,7 @@ import CheckIcon from "./assets/icons/circle-duotone.svg?react";
 // @ts-expect-error: module declaration for SVG React import
 import SpinnerIcon from "./assets/icons/spinner.svg?react";
 import Icon from "./components/Icon";
+import Badge from "./components/Badge";
 
 export default function App() {
   return (
@@ -17,6 +18,14 @@ export default function App() {
         <Icon svg={TrashIcon} className='fill-green-base' />
         <Icon svg={CheckIcon} className='fill-green-base' />
         <Icon svg={SpinnerIcon} className='animate-spin' />
+      </div>
+      <div>
+        <Badge variant="secundary" size="small">
+          5
+        </Badge>
+        <Badge variant="primary" size="small">
+          2 de 5
+        </Badge>
       </div>
     </div>
   );

@@ -1,17 +1,50 @@
-import { createContext, useContext } from "react";
-import type { TaskContextData, TaskProviderProps } from "../types/task";
+import { createContext, useContext, useState } from "react";
+import type { Task, TaskContextData, TaskProviderProps } from "../types/task";
 
 const TaskContext = createContext({} as TaskContextData);
 
 export function TaskProvider({ children }: TaskProviderProps) {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  function addTask(title: string) {
+    const newTask: Task = {
+      id: crypto.randomUUID(),
+      title,
+      isCompleted: false,
+    };
+
+    setTasks((state) => [...state, newTask]);
+  }
+
+  function removeTask(taskId: string) {
+    setTasks((state) => state.filter((task) => task.id !== taskId));
+  }
+
+  function toggleCompleteTask(taskId: string) {
+    setTasks((state) =>
+      state.map((task) =>
+        task.id === taskId ? { ...task, isCompleted: !task.isCompleted } : task,
+      ),
+    );
+  }
+
+  function editTask(taskId: string, newTitle: string) {
+    setTasks((state) =>
+    state.map(task => 
+        task.id === taskId
+        ? { ...task, title: newTitle}
+        : task
+    ))
+  }
+
   return (
     <TaskContext.Provider
       value={{
-        tasks: [],
-        addTask: () => {},
-        removeTask: () => {},
-        toggleCompleteTask: () => {},
-        editTask: () => {},
+        tasks,
+        addTask,
+        removeTask,
+        toggleCompleteTask,
+        editTask,
       }}
     >
       {children}
@@ -20,7 +53,7 @@ export function TaskProvider({ children }: TaskProviderProps) {
 }
 
 export const useTaskContext = () => {
-    const context = useContext(TaskContext);
+  const context = useContext(TaskContext);
 
-    return context;
-}
+  return context;
+};

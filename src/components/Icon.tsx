@@ -1,5 +1,31 @@
-import { iconVariants, type IconProps } from "../types/icon";
+import type React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-export default function Icon({ svg: SvgComponent, className, animate, ...props }: IconProps) {
-  return <SvgComponent {...props} className={iconVariants({ animate, className })} />;
+export const iconVariants = cva("", {
+  variants: {
+    animate: {
+      false: "",
+      true: "animate-spin",
+    },
+  },
+
+  defaultVariants: {
+    animate: false,
+  },
+});
+
+export type IconProps = React.ComponentProps<"svg"> &
+  VariantProps<typeof iconVariants> & {
+    svg: React.FC<React.ComponentProps<"svg">>;
+  };
+
+export default function Icon({
+  svg: SvgComponent,
+  className,
+  animate,
+  ...props
+}: IconProps) {
+  return (
+    <SvgComponent {...props} className={iconVariants({ animate, className })} />
+  );
 }

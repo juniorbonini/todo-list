@@ -9,20 +9,18 @@ export default function TasksListContent() {
   const { tasks, prepareTasks } = useTasks();
 
   function handleNewTask() {
-    prepareTasks()
+    prepareTasks();
   }
 
-  console.log(tasks);
   return (
     <>
       <Button icon={PlusIcon} className="w-full" onClick={handleNewTask}>
         Nova tarefa
       </Button>
       <section className="space-y-2">
-        <TasksContent />
-        <TasksContent />
-        <TasksContent />
-        <TasksContent />
+        {tasks.map((task) => (
+          <TasksContent key={task.id} task={tasks} />
+        ))}
       </section>
     </>
   );

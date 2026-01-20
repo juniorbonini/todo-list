@@ -25,11 +25,23 @@ export default function useTasks() {
     );
   }
 
+  function updateTaskStatus(id: string, isCompleted: boolean) {
+    setTasks(
+      tasks.map((task) => (task.id === id ? { ...task, isCompleted } : task)),
+    );
+  }
+
+  function removeTask(id: string) {
+    setTasks(tasks.filter((task) => task.id !== id))
+  }
+
   return {
     tasks,
-    tasksCount: tasks.length,
+    tasksCount: tasks.filter((task) => task.state === TaskState.Created).length,
     completedTasksCount: tasks.filter((task) => task.isCompleted).length,
     prepareTasks,
     updateTask,
+    updateTaskStatus,
+    removeTask
   };
 }

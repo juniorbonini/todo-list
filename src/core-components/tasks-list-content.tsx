@@ -7,7 +7,7 @@ import useTasks from "../hooks/useTasks";
 import { TaskState } from "../types/task";
 
 export default function TasksListContent() {
-  const { tasks, prepareTasks } = useTasks();
+  const { tasks, prepareTasks, } = useTasks();
 
   function handleNewTask() {
     prepareTasks();

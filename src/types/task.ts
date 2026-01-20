@@ -14,7 +14,4 @@ export type Task = {
 
 export type TaskItem = {
   task: Task;
-  // onRemove: (id: string) => void;
-  // onToggleComplete: (id: string) => void;
-  // onEdit: (id: string, newTitle: string) => void;
 };

@@ -15,10 +15,21 @@ export default function useTasks() {
     ]);
   }
 
+  function updateTask(id: string, payload: { title: Task["title"] }) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id
+          ? { ...task, state: TaskState.Created, ...payload }
+          : task,
+      ),
+    );
+  }
+
   return {
     tasks,
     tasksCount: tasks.length,
     completedTasksCount: tasks.filter((task) => task.isCompleted).length,
     prepareTasks,
+    updateTask,
   };
 }

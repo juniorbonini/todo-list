@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import PlusIcon from "../assets/icons/plus.svg?react";
 import TasksContent from "./tasks-content";
 import useTasks from "../hooks/useTasks";
+import { TaskState } from "../types/task";
 
 export default function TasksListContent() {
   const { tasks, prepareTasks } = useTasks();
@@ -14,12 +15,17 @@ export default function TasksListContent() {
 
   return (
     <>
-      <Button icon={PlusIcon} className="w-full" onClick={handleNewTask}>
+      <Button
+        icon={PlusIcon}
+        className="w-full"
+        onClick={handleNewTask}
+        disabled={tasks.some((task) => task.state === TaskState.Creating)}
+      >
         Nova tarefa
       </Button>
       <section className="space-y-2">
         {tasks.map((task) => (
-          <TasksContent key={task.id} task={tasks} />
+          <TasksContent key={task.id} task={task} />
         ))}
       </section>
     </>

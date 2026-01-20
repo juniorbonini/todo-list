@@ -1,33 +1,47 @@
 import Text from "./Text";
 
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 import type React from "react";
+import Skeleton from "./Skeleton";
 
 export const badgeVariants = cva(
   "inline-flex items-center justify-center rounded-full",
   {
     variants: {
       variant: {
+        none: '',
         primary: "bg-green-light",
         secundary: "bg-pink-light",
       },
       size: {
-        sm: "py-0.5 px-2",
+        sm: "py-1 px-2",
       },
     },
 
     defaultVariants: {
       size: "sm",
-      variant: "secundary",
+      variant: 'primary',
     },
   },
 );
 
+export const badgeSkeletonVariants = cva("", {
+  variants: {
+    size: {
+      sm: "w-6 h-6",
+    },
+  },
+  defaultVariants: {
+    size: "sm",
+  },
+});
+
 export const badgeTextVariants = cva("", {
   variants: {
     variant: {
-      primary: "text-green-dark",
-      secundary: "text-pink-dark",
+      none: '',
+      primary: "text-green-base",
+      secundary: "text-pink-base",
     },
   },
   defaultVariants: {
@@ -36,20 +50,27 @@ export const badgeTextVariants = cva("", {
 });
 
 export type BadgeProps = React.ComponentProps<"div"> &
-  VariantProps<typeof badgeVariants> & {};
-
+  VariantProps<typeof badgeVariants> & {
+    loading?: boolean;
+  };
 
 export default function Badge({
   variant,
   size,
   className,
   children,
+  loading,
 }: BadgeProps) {
+  if (loading) {
+    return <Skeleton rounded="full" className={cx(
+      badgeVariants({ variant: 'none' }),
+      badgeSkeletonVariants({ size }),
+      className
+    )} />;
+  }
   return (
     <div className={badgeVariants({ variant, size, className })}>
-      <Text className={badgeTextVariants({ variant })}>
-        {children}
-      </Text>
+      <Text className={badgeTextVariants({ variant })}>{children}</Text>
     </div>
   );
 }
